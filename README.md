@@ -37,3 +37,11 @@ Programmierung vermittelt.
 * Mitternachtsformel.py implementiert die Mitternachtsformel zur bestimmung von Nullstellen einer Funktion.
 * String_action.py implementiert einige auf dem Datentyp String ausführbaren Funktionen.
 * Umwandlung.py implementiert die Umwanldung der Zahlen 1-9, wenn die Eingabe als String der ausgeschreibenen Zahl erfolgt indie Integer darstellung.
+
+
+### PPR
+
+PPR steht für Programmierpraktikum. In dieser Veranstaltung ging es darum, die Programmiersprache Java, sowie die Grundlagen der Objektorientierung zu vermitteln.
+Ziel dieser Veranstaltung war eine Gruppenabschlussarbeit, in der Bundestagsdaten von der Website des Bundestags aktuell heruntergeladen werden, diese (XML, und Excel) Dateinen mittels eines Parsers ausgelesen werden und in eine 
+MongoDB geschrieben werden. Darauf hin sollen diese NLP-Verarbeitet werden und die ergebnisse in einer Webanwendung dargestellt werden.
+Die Webanwendung sollte zudem über ein User-Management und damit verbundene zugriffsrechte ausgestattet ein. 

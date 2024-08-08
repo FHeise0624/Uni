@@ -2,5 +2,9 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/PPR/parliament_browser_4_4" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/PPR/uebung-1" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/PPR/uebung-2" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/PPR/uebung-3" vcs="Git" />
   </component>
 </project>
