@@ -1,0 +1,373 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="15.1">
+  <zoom_level>5</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>225</x>
+      <y>325</y>
+      <w>105</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>Abgeordneter
+--
+- ID: Long
+- Partei: String
+- Vita: String
+- ZuVeroeffentlichendes
+- Wahlperiode
+--
+getPartei()
+setPartei()
+setVita()
+getWahlperiode()
+setWahlperiode()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>440</x>
+      <y>205</y>
+      <w>105</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>Gast
+--
+
+--
+getEinladungID()
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>45</x>
+      <y>330</y>
+      <w>105</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>Mitarbeiter
+--
+~ Arbeitslast: Integer
+--
+getArbeitslast()
+setArbeitslast()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>225</x>
+      <y>485</y>
+      <w>105</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>Fraktion
+--
+- Partei: String
+- Mitglied: List
+- Groesse: Integer
+--
+getPartei()
+getMitglied()
+getGroesse()
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>760</x>
+      <y>355</y>
+      <w>105</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>Besuch
+--
++ Datum: Long
++ Zeit: Long
++ Teilnehmer: List
+- TeilnehmerAnzahl: Integer
+--
+getDatum()
+getTeilnehmer()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>225</x>
+      <y>50</y>
+      <w>105</w>
+      <h>160</h>
+    </coordinates>
+    <panel_attributes>/Person/
+--
+- Name: String
+- Geburtsdatum: Long
+- Gebutsort: String
+- Geburtsland: String
+- Todesdatum: Long
+- Geschlecht: String
+- Familienstand: String
+- Religion: String
+- Job: String
+- Email: String
+
+--
+setName()
+setTodesdatum()
+getFamilienstand()
+setFamilienstand()
+setReligion()
+setJob()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>270</x>
+      <y>205</y>
+      <w>15</w>
+      <h>130</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;240.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>90</x>
+      <y>205</y>
+      <w>190</w>
+      <h>135</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>360.0;10.0;10.0;250.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>275</x>
+      <y>205</y>
+      <w>175</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;330.0;60.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>270</x>
+      <y>430</y>
+      <w>50</w>
+      <h>65</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=1..n
+m2= 1
+ist teil von&gt;</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;110.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>145</x>
+      <y>370</y>
+      <w>90</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=0..n
+m2=1
+arbeitet für &gt;</panel_attributes>
+    <additional_attributes>10.0;20.0;160.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>805</x>
+      <y>305</y>
+      <w>60</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=1
+m2=1
+&lt; findet statt in</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;100.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>540</x>
+      <y>235</y>
+      <w>230</w>
+      <h>165</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=1..n
+m2=1
+nimmt teil an &gt;</panel_attributes>
+    <additional_attributes>10.0;10.0;440.0;310.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>325</x>
+      <y>250</y>
+      <w>125</w>
+      <h>125</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=1
+m2=0..1
+laed ein &gt;</panel_attributes>
+    <additional_attributes>10.0;230.0;230.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>325</x>
+      <y>385</y>
+      <w>445</w>
+      <h>35</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=1..n
+m2=0..n
+nimmmt teil&gt;</panel_attributes>
+    <additional_attributes>10.0;10.0;870.0;40.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>755</x>
+      <y>250</y>
+      <w>105</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>Raum
+--
+- Kapazitaet_ Integer
+- RaumName: String
+- RaumNummer: Integer
+--
+getFreieplätze()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>430</x>
+      <y>300</y>
+      <w>105</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>Einladung
+--
++ ID: Long
+- Aussteller: String
+- Empfänger: List
+--
+getID
+setID
+getAussteller
+getEmpfänger
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>325</x>
+      <y>350</y>
+      <w>115</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=1
+m2=1..n
+stellt aus &gt;</panel_attributes>
+    <additional_attributes>10.0;50.0;210.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>470</x>
+      <y>250</y>
+      <w>55</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=1
+m2=1..n
+&lt; empfängt</panel_attributes>
+    <additional_attributes>10.0;100.0;20.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>555</x>
+      <y>430</y>
+      <w>105</w>
+      <h>65</h>
+    </coordinates>
+    <panel_attributes>Partei
+--
+- Mitglied: List
+- Groesse: Integer
+--
+getMitglied()
+setMitglied()
+getGroesse()
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>325</x>
+      <y>420</y>
+      <w>240</w>
+      <h>55</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=0..n
+m2=0..1
+ist Mitglied in &gt;</panel_attributes>
+    <additional_attributes>10.0;10.0;460.0;80.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>525</x>
+      <y>250</y>
+      <w>110</w>
+      <h>190</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=0..n
+m2=0..1
+ist Mitglied in &gt;</panel_attributes>
+    <additional_attributes>10.0;10.0;190.0;360.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>325</x>
+      <y>475</y>
+      <w>240</w>
+      <h>65</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=0..n
+m2=0..1
+&lt; entsendet Mitglieder</panel_attributes>
+    <additional_attributes>10.0;100.0;460.0;10.0</additional_attributes>
+  </element>
+</diagram>
