@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<!--
+    Dies ist ein experimenteller Code, um die Erstellung eines Radar-Diagramms mit D3.js zu demonstrieren. 
+    Der Code ist als eigenständiges Experiment gedacht und derzeit nicht in die Datei "basis.html" integriert.
+    Die Implementierung zielt darauf ab, die Machbarkeit der Visualisierung verschiedener Datensätze in einem Radar-Diagramm zu testen.
+-->
+
+<html lang="de">
+<head>
+    <!-- Einbindung der D3.js-Bibliothek für Datenvisualisierung -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+</head>
+<body>
+    <!-- Skript-Bereich für das Erstellen des Radar-Diagramms -->
+    <script>
+        // Initialisieren eines leeren Arrays für die Datensätze
+        let data = [];
+        // Festlegen der Features oder Dimensionen des Radar-Diagramms
+        let features = ["A", "B", "C", "D", "E", "F"];
+
+        // Generieren der Daten: Erstellen von 3 Datensätzen mit zufälligen Werten für jedes Feature
+        for (var i = 0; i < 3; i++){
+            var point = {};
+            features.forEach(f => point[f] = 1 + Math.random() * 8);
+            data.push(point);
+        }
+
+        // Festlegen der Größe des SVG-Elements für das Radar-Diagramm
+        let width = 600;
+        let height = 600;
+        
+        // Hinzufügen eines SVG-Elements zum Body des Dokuments
+        let svg = d3.select("body").append("svg")
+            .attr("width", width)
+            .attr("height", height);
+
+        // Skala für die radiale Ausrichtung der Rasterlinien
+        let radialScale = d3.scaleLinear()
+            .domain([0, 10])
+            .range([0, 250]);
+        
+        // Festlegen der Werte für die Rasterlinien
+        let ticks = [2, 4, 6, 8, 10];
+
+        // Zeichnen der Rasterlinien als Kreise
+        svg.selectAll("circle")
+            .data(ticks)
+            .join(
+                enter => enter.append("circle")
+                    .attr("cx", width / 2)
+                    .attr("cy", height / 2)
+                    .attr("fill", "none")
+                    .attr("stroke", "gray")
+                    .attr("r", d => radialScale(d))
+            );
+
+        // Hinzufügen von Beschriftungen für die Rasterlinien
+        svg.selectAll(".ticklabel")
+            .data(ticks)
+            .join(
+                enter => enter.append("text")
+                    .attr("class", "ticklabel")
+                    .attr("x", width / 2 + 5)
+                    .attr("y", d => height / 2 - radialScale(d))
+                    .text(d => d.toString())
+            );
+
+        // Funktion zur Berechnung der Koordinaten basierend auf Winkel und Wert
+        function angleToCoordinate(angle, value){
+            let x = Math.cos(angle) * radialScale(value);
+            let y = Math.sin(angle) * radialScale(value);
+            return {"x": width / 2 + x, "y": height / 2 - y};
+        }
+
+        // Berechnung der Positionen der Features auf dem Diagramm
+        let featureData = features.map((f, i) => {
+            let angle = (Math.PI / 2) + (2 * Math.PI * i / features.length);
+            return {
+                "name": f,
+                "angle": angle,
+                "line_coord": angleToCoordinate(angle, 10),
+                "label_coord": angleToCoordinate(angle, 10.5)
+            };
+        });
+
+        // Zeichnen der Achsenlinien für jedes Feature
+        svg.selectAll("line")
+            .data(featureData)
+            .join(
+                enter => enter.append("line")
+                    .attr("x1", width / 2)
+                    .attr("y1", height / 2)
+                    .attr("x2", d => d.line_coord.x)
+                    .attr("y2", d => d.line_coord.y)
+                    .attr("stroke","black")
+            );
+
+        // Hinzufügen der Beschriftungen für jedes Feature
+        svg.selectAll(".axislabel")
+            .data(featureData)
+            .join(
+                enter => enter.append("text")
+                    .attr("x", d => d.label_coord.x)
+                    .attr("y", d => d.label_coord.y)
+                    .text(d => d.name)
+            );
+
+        // Festlegen des Pfadgenerators für das Zeichnen der Datenlinien
+        let line = d3.line()
+            .x(d => d.x)
+            .y(d => d.y);
+
+        // Farben für die Darstellung der Datensätze
+        let colors = ["darkorange", "gray", "navy"];
+
+        // Funktion zur Berechnung der Koordinaten für die Datenpfade
+
+        function getPathCoordinates(data_point){
+            let coordinates = [];
+            // Durchlaufen jedes Features und Berechnen der Koordinaten basierend auf dem Wert
+            for (var i = 0; i < features.length; i++){
+                let ft_name = features[i];
+                let angle = (Math.PI / 2) + (2 * Math.PI * i / features.length);
+                coordinates.push(angleToCoordinate(angle, data_point[ft_name]));
+            }
+            return coordinates; // Rückgabe der berechneten Koordinaten für den Datenpunkt
+        }
+
+        // Zeichnen der Datenpfade basierend auf den berechneten Koordinaten
+        svg.selectAll("path")
+            .data(data) // Binden der generierten Daten
+            .join(
+                enter => enter.append("path")
+                    .datum(d => getPathCoordinates(d)) // Berechnen der Pfadkoordinaten für jeden Datenpunkt
+                    .attr("d", line) // Zeichnen des Pfads mit den berechneten Koordinaten
+                    .attr("stroke-width", 3) // Setzen der Linienbreite
+                    .attr("stroke", (_, i) => colors[i]) // Zuweisen der Farbe basierend auf dem Datenindex
+                    .attr("fill", (_, i) => colors[i]) // Füllen der Polygone mit Farbe
+                    .attr("stroke-opacity", 1) // Setzen der Deckkraft der Linie
+                    .attr("opacity", 0.5) // Setzen der Fülldeckkraft für die Transparenz
+            );
+    </script>
+</body>
+</html>
