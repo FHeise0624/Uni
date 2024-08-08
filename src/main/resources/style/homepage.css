@@ -1,0 +1,88 @@
+/*
+Stylesheet für die Homepage
+@author Felix
+*/
+
+/*Festlegen Seiteneigenschaften*/
+html {
+    background: linear-gradient(to bottom right, purple, orange);
+    font-family: "Times New Roman", sans-serif;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+/*Festlegen Containereigenschaften*/
+.container {
+    text-align: center;
+    margin: 0 auto;
+    max-width: 400px;
+    padding: 40px 30px;
+    margin-top: 100px;
+}
+
+.container h1 {
+    color: antiquewhite; /*Farbe der Überschrift*/
+}
+
+/* Eigenschaften des Dropdown*/
+.dropdown {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+}
+
+/*Eigenschaften des Dropdown-Buttons*/
+.dropbtn {
+    color: antiquewhite;
+    background-color: transparent;
+    border-color: transparent;
+}
+
+/*Eigenschaften des Dropdown Inhalts*/
+.dropdown-content {
+    display: none;
+    position: absolute;
+    min-width: 160px;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    z-index: 1;
+    background-color: transparent;
+    overflow-y: auto; /*Festlegen Overflow falls Content über die Seite hinausgeht*/
+}
+
+/*Festlegen verhalten des dropdown bei hover*/
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/*Festlegen Eigenschaften Dropdown Inhalt*/
+.dropdown-content a {
+    color: antiquewhite;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+/*Festlegen Eigenschaft Dropdown bei hover*/
+.dropdown-content a:hover {
+    background-color: #ffa500;
+}
+
+/* Festlegen der Eigenschaften von Buttons im Dropdown*/
+.dropdown-content button {
+    color: antiquewhite;
+    padding: 12px 16px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    display: block;
+    width: 100%;
+    font-size: inherit;
+    font-family: inherit;
+    text-align: center;
+}
+
+/* Hover Verhalten der Dropdown-Buttons*/
+.dropdown-content button:hover {
+    background-color: #ffa500;
+}

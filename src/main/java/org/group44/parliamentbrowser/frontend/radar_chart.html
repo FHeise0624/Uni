@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- Sorgt für eine angemessene Darstellung auf mobilen Geräten -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Radar Chart</title>
+    <!-- Einbindung der D3.js-Bibliothek -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+</head>
+<body>
+
+<!-- Container für das Radar-Diagramm -->
+<div id="chart-container">
+    <svg id="radar-chart"></svg>
+</div>
+
+<script>
+// Pfad zur JSON-Datei, die die Daten enthält
+var jsonUrl = 'rede.json';
+
+// Laden der Daten aus der JSON-Datei
+d3.json(jsonUrl).then(function(data) {
+    // Zugriff auf die Sentiment-Daten, die unter dem Schlüssel "sentiments" im JSON gespeichert sind
+    var sentimentData = data.sentiments;
+    // Initialisierung von Arrays für die Kategorien (Neutral, Positiv, Negativ) und deren Zählungen
+    var objectArray = ["Neutral", "Positiv", "Negativ"];
+    var countArray = [0, 0, 0];
+
+    // Zuordnung der Sentiment-Daten zu den drei Kategorien und Aktualisierung der Zählungen
+    sentimentData.forEach(function(item) {
+        if (item.sentiment === 0){
+            countArray[0] += item.count;
+        } else if (item.sentiment > 0){
+            countArray[1] += item.count;
+        } else if (item.sentiment < 0){
+            countArray[2] += item.count;
+        }
+    });
+
+    // Festlegung der Größe des SVG-Elements für das Radar-Diagramm
+    var width = 500;
+    var height = 500;
+
+    // Initialisierung des SVG-Elements
+    var svg = d3.select("#radar-chart")
+        .attr("width", width)
+        .attr("height", height);
+
+    // Berechnung des Radius für das Radar-Diagramm
+    var radius = Math.min(width, height) / 2;
+    var g = svg.append("g")
+        .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+
+    // Farbschema für die Darstellung der verschiedenen Sentiment-Kategorien
+    var color = d3.scaleOrdinal()
+        .range(["#FF0000", "#00FF00", "#0000FF"]);
+
+    // Vorbereitung der Daten für das Radar-Diagramm
+    var data = [
+        {axis: "Neutral", value: countArray[0]},
+        {axis: "Positiv", value: countArray[1]},
+        {axis: "Negativ", value: countArray[2]}
+    ];
+
+    // Bestimmung des maximalen Werts für die Skalierung des Diagramms
+    var maxValue = Math.max(...countArray);
+
+    // Winkelberechnung für die Achsen des Diagramms
+    var angleSlice = Math.PI * 2 / data.length;
+
+    // Erstellung der Linienfunktion für das Radar-Diagramm
+    var line = d3.lineRadial()
+        .radius(function(d) { return d.value / maxValue * radius; })
+        .angle(function(d, i) { return i * angleSlice; });
+
+    // Hinzufügen der Pfade für das Radar-Diagramm
+    g.selectAll(".radar-chart-path")
+        .data([data])
+        .enter().append("path")
+        .attr("class", "radar-chart-path")
+        .attr("d", line)
+        .style("fill", function(d) { return color(d[0].axis); })
+        .style("fill-opacity", 0.6);
+
+    // Hinzufügen der Achsen zum Diagramm
+    var axis = g.selectAll(".radar-chart-axis")
+        .data(data)
+        .enter().append("g")
+        .attr("class", "radar-chart-axis");
+    // Linien für die Achsen zeichnen
+    axis.append("line")
+        .attr("x1", 0) // Startpunkt der Linie auf der x-Achse
+        .attr("y1", 0) // Startpunkt der Linie auf der y-Achse
+        .attr("x2", function(d, i) { return Math.cos(angleSlice * i) * radius; }) // Endpunkt der Linie auf der x-Achse, berechnet mit Kosinus des Winkels
+        .attr("y2", function(d, i) { return Math.sin(angleSlice * i) * radius; }) // Endpunkt der Linie auf der y-Achse, berechnet mit Sinus des Winkels
+        .attr("stroke", "black") // Farbe der Achsenlinien
+        .attr("stroke-width", "1px"); // Dicke der Achsenlinien
+
+    // Textbeschriftungen für die Achsen hinzufügen
+    axis.append("text")
+        .attr("class", "radar-chart-axis-label") // Klasse für das Styling der Beschriftungen
+        .attr("x", function(d, i) { return Math.cos(angleSlice * i) * radius * 1.1; }) // Positionierung der Beschriftung auf der x-Achse, etwas weiter außerhalb als die Achsenlinie
+        .attr("y", function(d, i) { return Math.sin(angleSlice * i) * radius * 1.1; }) // Positionierung der Beschriftung auf der y-Achse, ebenfalls etwas weiter außerhalb
+        .text(function(d) { return d.axis; }); // Der Text der Beschriftung, der aus den Daten stammt
+});
+
+</script>
+
+</body>
+</html>

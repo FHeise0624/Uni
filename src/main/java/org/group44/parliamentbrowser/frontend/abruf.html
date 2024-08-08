@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- Sorgt dafür, dass die Webseite gut auf verschiedenen Geräten aussieht -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reden</title>
+
+    <!-- Verlinkung zu einem externen Stylesheet -->
+    <link rel="stylesheet" href="/style.css">
+   
+    <!-- Einbindung von jQuery, einer JavaScript-Bibliothek, die AJAX-Anfragen vereinfacht -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <h1>Reden</h1>
+
+    <!-- Formular zum Abrufen von Reden eines bestimmten Abgeordneten -->
+    <form id="rede">
+        <h2>Rede eines bestimmten Abgeordneten</h2> <!-- H2 für Unterüberschriften, H1 ist bereits für den Haupttitel verwendet -->
+
+        <!-- Eingabefeld für die ID der Rede -->
+        <label for="redenId">Reden-ID:</label>
+        <input type="text" id="redenId" name="redenId">
+
+        <!-- Eingabefeld für das Datum der Rede -->
+        <label for="datum">Datum:</label>
+        <input type="date" id="datum" name="datum">
+
+        <!-- Button, um die Anfrage zum Abrufen der Rede zu starten -->
+        <button id="abruf">Rede abrufen</button>
+    </form>
+
+    <!-- Dieser Bereich könnte für die Anzeige der geladenen Rede genutzt werden, ist aber momentan auskommentiert.
+    <popup id="geladeneRede">
+        <p>$('#redeText').val()</p>
+    </popup>
+    -->
+
+</div>
+
+<!-- Navigationsleiste für weitere Seiten oder Diagramm-Links -->
+<nav>
+    <ul>
+        <li>
+            <a href="#"><i class="fas fa-chart-bar"></i> Diagramme</a>
+            <ul>
+                <!-- Dropdown-Menü für verschiedene Diagrammtypen -->
+                <li><a href="#Sun Burst"><i class="fas fa-angle-right"></i> Sun Burst</a></li>
+                <li><a href="balken_dynamisch.html"><i class="fas fa-angle-right"></i> Bar Chart</a></li>
+                <li><a href="bubble_chart.html"><i class="fas fa-angle-right"></i> Bubble Chart</a></li>
+                <li><a href="#Radar Chart"><i class="fas fa-angle-right"></i> Radar Chart</a></li>
+            </ul>
+        </li>
+    </ul>
+</nav>
+</body>
+
+<script>
+    // jQuery-Funktion, die beim Absenden des Formulars aufgerufen wird
+    $('#rede').submit(function (event){
+       event.preventDefault(); // Verhindert das Neuladen der Seite beim Absenden
+
+       var id = $('#redenId').val(); // Liest den Wert des ID-Feldes aus
+       // AJAX-Anfrage, um die Rede basierend auf der ID zu laden
+       $.ajax({
+        url: '/rede/' + id, // Pfad zur API mit der ID der Rede
+        type: 'get', // HTTP-Methode
+        success: function (response) {
+            // Aktion bei erfolgreicher Antwort: Geladene Rede in der Konsole loggen
+            console.log("Geladene Rede:", response);
+            $('#redeText').text(response); // Element mit der ID 'redeText', um den Text anzuzeigen
+        },
+        error: function (xhd, status, error){
+            // Aktion bei einem Fehler: Fehler in der Konsole loggen
+            console.error(error);
+        }
+    });
+});
+</script>

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<header class="header">
+    <h1>Bubble Chart</h1>
+</header>
+<!-- Einbindung von D3.js zur Erstellung datengetriebener Dokumente -->
+<script src="https://d3js.org/d3.v6.js"></script>
+<!-- Verknüpfung mit einem externen Stylesheet für das Design -->
+<link rel="stylesheet" href="style.css"> 
+
+<!-- Container für das Bubble Chart -->
+<div id="BD"></div>
+
+<script>
+// Festlegung der Abmessungen und Margen des Diagramms
+const margin = {top: 10, right: 20, bottom: 30, left: 50},
+    width = 500 - margin.left - margin.right,
+    height = 420 - margin.top - margin.bottom;
+
+// SVG-Element im Container #BD erzeugen und positionieren
+const svg = d3.select("#BD")
+  .append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", `translate(${margin.left},${margin.top})`);
+
+// Laden der Daten aus einer externen JSON-Datei
+d3.json("rede.json").then(function(data) {
+  // Extraktion der benannten Entitäten aus der JSON-Datei
+  const namedEntities = data.namedEntities;
+  
+  // Erstellung einer X-Achse basierend auf den benannten Entitäten
+  const x = d3.scaleBand()
+    .domain(namedEntities)
+    .range([0, width])
+    .padding(0.1);
+  svg.append("g")
+    .attr("transform", `translate(0, ${height})`)
+    .call(d3.axisBottom(x))
+    .selectAll("text")
+      .style("text-anchor", "end")
+      .attr("dx", "-0.8em")
+      .attr("dy", "-0.15em")
+      .attr("transform", "rotate(-45)");
+
+  // Erstellung einer Y-Achse, basierend auf der Länge der benannten Entitäten
+  const y = d3.scaleLinear()
+    .domain([0, d3.max(namedEntities, d => d.length)])
+    .range([ height, 0 ]);
+  svg.append("g")
+    .call(d3.axisLeft(y));
+
+  // Festlegung eines Farbschemas für die Bubbles
+  const colorScale = d3.scaleOrdinal()
+    .domain(namedEntities)
+    .range(d3.schemeCategory10);
+
+  // Hinzufügen von Kreisen (Bubbles) zum SVG
+  svg.append('g')
+    .selectAll("dot")
+    .data(namedEntities)
+    .enter()
+    .append("circle")
+      .attr("cx", d => x(d))
+      .attr("cy", d => y(d.length))
+      .attr("r", 5) // Radius der Bubbles
+      .style("fill", d => colorScale(d)) // Farbe der Bubbles
+      .style("opacity", "0.7")
+      .attr("stroke", "black"); // Rand der Bubbles
+
+  // Erstellung eines Tooltips zur Anzeige von Informationen beim Überfahren der Bubbles
+  const tooltip = d3.select("body").append("div")
+    .attr("class", "tooltip")
+    .style("opacity", 0);
+
+  // Event-Listener für das Anzeigen und Verstecken des Tooltips
+  svg.selectAll("circle")
+    .on("mouseover", function(event, d) {
+        tooltip.transition()
+          .duration(200)
+          .style("opacity", .9);
+        tooltip.html(d.entity) // Anzeigen der Entität im Tooltip
+          .style("left", (event.pageX) + "px")
+          .style("top", (event.pageY - 28) + "px");
+      })
+      .on("mouseout", function(d) {
+        tooltip.transition()
+          .duration(500)
+          .style("opacity", 0); // Tooltip ausblenden
+      });
+
+});
+</script>
+
+<!-- Stildefinitionen für den Tooltip -->
+<style>
+    .tooltip {
+      position: absolute;
+      text-align: center;
+      padding: 4px;
+      font: 12px sans-serif;
+      background: lightsteelblue;
+      border: 0.5px solid #aaa;
+      border-radius: 4px;
+      pointer-events: none; 
+    }
+</style>
